@@ -23,7 +23,7 @@ function arrayContains() {
     return 1
 }
 
-arrayContains "$data" "$allowedArgs"
+arrayContains "$data" "${allowedArgs[@]}"
 isIn="$?"
 
 if  [[ "$isIn" -ne 0 ]]; then
@@ -32,22 +32,17 @@ if  [[ "$isIn" -ne 0 ]]; then
 fi
 
 # create data folder if not exist
-if [ ! -d "./io/data" ]; then
-    mkdir ./io/data
-fi
+mkdir -p ./data
 
 function downloadcran () {
     echo "Clean cran directory if any and download cran"
-    if [ -d "./io/data/cran" ]; then
-        cd ./io/data/cran/
-        rm -rf *
-    else
-        cd ./io/data
-        mkdir cran && cd cran
-    fi
+    mkdir -p ./data/cran/
+    rm -rf ./data/cran/*
+    cd ./data/cran/
     curl --remote-name-all http://ir.dcs.gla.ac.uk/resources/test_collections/cran/cran.tar.gz
     tar xfz cran.tar.gz
-    cd ../../..
+    rm cran.tar.gz
+    cd ../..
 }
 
 if [ $data == "cran" ]; then

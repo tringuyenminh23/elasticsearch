@@ -1,4 +1,5 @@
+from pathlib import Path
 
-def get_paths(name):
-    if name == 'root':
-        return Path(__file__)
+
+def root_path():
+    return Path(__file__).parent
